@@ -13,6 +13,10 @@ baseType inputDrinkBase();
 tempType inputDrinkTemperature();
 std::string inputDrinkFlavor();
 std::string inputDrinkDairy();
+bool numInRange(int num, int lower, int upper);
+bool numGT0(int num, int = 0, int = 0);
+bool negNum(int num, int = 0, int = 0);
+int inputInt(std::string prompt, std::string err, bool (*func)(int, int, int), int lower = 0, int upper = 0);
 
 int main()
 {
@@ -31,10 +35,10 @@ int main()
 
     drink *d;
     d = new drink(inputDrinkBase(), inputDrinkTemperature(), inputDrinkSize(), inputDrinkDairy(), inputDrinkFlavor());
-    int numDrinks;
-    std::cout << "How many drinks would you like? ";
-    std::cin >> numDrinks;
-    // input validation goes here
+    int numDrinks = inputInt("How many drinks would you like? ", "That is not a valid number of drinks!", numGT0);
+    // std::cout << "How many drinks would you like? ";
+    // std::cin >> numDrinks;
+    //  input validation goes here
     drink *drinks = new drink[numDrinks];
     int ints[10];
     std::cout << ints << std::endl;
@@ -62,7 +66,7 @@ sizeType inputDrinkSize()
     {
         out << i + 1 << ": " << sizeStr[i] << std::endl;
     }
-    int drinkSize = 2; // inputInt(out.str(), numInRange, 1, 3);
+    int drinkSize = inputInt(out.str(), "That is not a valid drink Size!", numInRange, 1, 3);
 
     return sizes[drinkSize - 1];
 }
@@ -75,7 +79,7 @@ baseType inputDrinkBase()
     {
         out << i + 1 << ": " << baseStr[i] << std::endl;
     }
-    int drinkBase = 2; // inputInt(out.str(), numInRange, 1, 3);
+    int drinkBase = inputInt(out.str(), "That is not a valid drink base", numInRange, 1, 3);
 
     return bases[drinkBase - 1];
 }
@@ -89,7 +93,7 @@ tempType inputDrinkTemperature()
     {
         out << i + 1 << ": " << tempStr[i] << std::endl;
     }
-    drinkTemp = 2; // inputInt(out.str(), numInRange, 1, 3);
+    drinkTemp = inputInt(out.str(), "That is not a valid drink temperature!", numInRange, 1, 3);
 
     return temps[drinkTemp - 1];
 }
@@ -110,4 +114,41 @@ std::string inputDrinkDairy()
     std::cin >> std::ws;
     std::getline(std::cin, dairy);
     return dairy;
+}
+
+bool numInRange(int num, int lower, int upper)
+{
+
+    return num >= lower && num <= upper;
+}
+
+bool numGT0(int num, int, int)
+{
+    return num > 0;
+}
+
+bool negNum(int num, int, int)
+{
+    return num < 0;
+}
+
+int inputInt(std::string prompt, std::string err, bool (*func)(int, int, int), int lower, int upper)
+{
+    int input;
+    std::cout << prompt;
+    std::cin >> input;
+    std::cout << std::endl;
+    while (!std::cin || !func(input, lower, upper))
+    {
+        if (!std::cin)
+        {
+            std::cout << "You entered something that is not a number." << std::endl;
+            resetStream();
+        }
+        std::cout << err << std::endl;
+        std::cout << prompt;
+        std::cin >> input;
+        std::cout << std::endl;
+    }
+    return input;
 }
