@@ -35,14 +35,53 @@ int main()
 
     drink *d;
     d = new drink(inputDrinkBase(), inputDrinkTemperature(), inputDrinkSize(), inputDrinkDairy(), inputDrinkFlavor());
+    delete d;
     int numDrinks = inputInt("How many drinks would you like? ", "That is not a valid number of drinks!", numGT0);
     // std::cout << "How many drinks would you like? ";
     // std::cin >> numDrinks;
     //  input validation goes here
-    drink *drinks = new drink[numDrinks];
+    drink **order = new drink *[numDrinks];
+    int orderedDrinks = 0;
+    char yN = 'Y';
+    while (yN == 'Y')
+    {
+        order[orderedDrinks++] = new drink(inputDrinkBase(), inputDrinkTemperature(), inputDrinkSize(), inputDrinkDairy(), inputDrinkFlavor());
+        std::cout << order[orderedDrinks - 1]->tostring() << std::endl;
+        if (orderedDrinks < numDrinks)
+        {
+            yN = 'Y';
+        }
+        std::cout << "You have ordered the total number of drinks." << std::endl;
+        std::cout << "Would you like another drink? ";
+        std::cin >> yN;
+        yN = toupper(yN);
+        while (yN != 'Y' && yN != 'N')
+        {
+            std::cout << "You did not enter y or n." << std::endl;
+            std::cout << "Would you like another drink? ";
+            std::cin >> yN;
+            yN = toupper(yN);
+        }
+        if (yN == 'Y')
+        {
+            drink **cpy = order;
+            order = new drink *[++numDrinks];
+            for (int i = 0; i < numDrinks - 1; i++)
+            {
+                order[i] = cpy[i];
+            }
+            delete[] cpy;
+        }
+    }
     int ints[10];
     std::cout << ints << std::endl;
-
+    std::cout << "The list of drinks is:" << std::endl;
+    for (int i = 0; i < numDrinks; i++)
+    {
+        std::cout << order[i]->tostring() << std::endl;
+        delete order[i];
+    }
+    delete[] order;
     return 0;
 }
 
