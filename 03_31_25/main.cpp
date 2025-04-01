@@ -2,6 +2,10 @@
 #include <limits>
 #include "drink.h"
 
+// lecture activity. submit changed main.cpp
+// add a drink pointer and create a new dynamic drink variable representing your favorite drink
+// create a dynamic array of doubles in the main.
+
 void myFunc(int *p);
 void resetStream();
 sizeType inputDrinkSize();
