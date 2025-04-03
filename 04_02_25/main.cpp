@@ -25,8 +25,9 @@ int main()
     while (yN == 'Y')
     {
         // make a new drink
+        drink* drinkVar = new drink(TEA, HOT, MED, "none", "honey");
         // add drink to order
-        std::cout << drinkVar.tostring() << std::endl; // print new drink might need modified
+        std::cout << drinkVar->tostring() << std::endl; // print new drink might need modified
         std::cout << "Is this drink correct? ";
         std::cin >> yN;
         yN = toupper(yN);
@@ -40,6 +41,8 @@ int main()
         if (yN == 'N')
         {
             // remove drink from order
+            delete drinkVar;
+            order.removeLastDrink();
             yN = 'Y';
             continue;
         }
