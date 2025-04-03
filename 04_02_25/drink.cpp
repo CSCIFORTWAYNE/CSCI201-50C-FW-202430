@@ -186,7 +186,7 @@ std::string drink::tostring() const
     out << "Temperature: " << getTemperature() << std::endl;
     out << "Flavor: " << flavor << std::endl;
     out << "Dairy: " << dairy << std::endl;
-    out << "Price: " << getPrice() << std::endl;
+    out << "Price: $" << getPrice() << std::endl;
 
     return out.str();
 }

@@ -2,6 +2,7 @@
 #include <limits>
 #include "drink.h"
 #include "course.h"
+#include "drinkOrder.h"
 
 void myFunc(int *p);
 void resetStream();
@@ -15,14 +16,50 @@ bool numGT0(int num, int = 0, int = 0);
 bool negNum(int num, int = 0, int = 0);
 int inputInt(std::string prompt, std::string err, bool (*func)(int, int, int), int lower = 0, int upper = 0);
 
+// lecture activity fill in actions for the comments on lines 25 - 45 turn in the modified main.cpp
+
 int main()
 {
-
-    drink *d = new drink(inputDrinkBase(), inputDrinkTemperature(), inputDrinkSize(), inputDrinkDairy(), inputDrinkFlavor());
-    drink *yourDrink = d;
-    yourDrink->setBase(TEA);
-    std::cout << d->tostring() << std::endl;
-    std::cout << yourDrink->tostring() << std::endl;
+    drinkOrder order;
+    char yN = 'Y';
+    while (yN == 'Y')
+    {
+        // make a new drink
+        // add drink to order
+        std::cout << drinkVar.tostring() << std::endl; // print new drink might need modified
+        std::cout << "Is this drink correct? ";
+        std::cin >> yN;
+        yN = toupper(yN);
+        while (yN != 'Y' && yN != 'N')
+        {
+            std::cout << "You did not enter y or n." << std::endl;
+            std::cout << "Is this drink correct? ";
+            std::cin >> yN;
+            yN = toupper(yN);
+        }
+        if (yN == 'N')
+        {
+            // remove drink from order
+            yN = 'Y';
+            continue;
+        }
+        std::cout << "Would you like another drink? ";
+        std::cin >> yN;
+        yN = toupper(yN);
+        while (yN != 'Y' && yN != 'N')
+        {
+            std::cout << "You did not enter y or n." << std::endl;
+            std::cout << "Would you like another drink? ";
+            std::cin >> yN;
+            yN = toupper(yN);
+        }
+    }
+    std::cout << order.tostring() << std::endl;
+    // drink *d = new drink(inputDrinkBase(), inputDrinkTemperature(), inputDrinkSize(), inputDrinkDairy(), inputDrinkFlavor());
+    // drink *yourDrink = d;
+    // yourDrink->setBase(TEA);
+    // std::cout << d->tostring() << std::endl;
+    // std::cout << yourDrink->tostring() << std::endl;
 
     // course **schedule;
     // schedule = new course *[2];
