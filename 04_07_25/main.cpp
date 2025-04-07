@@ -20,12 +20,15 @@ bool validPart(std::string part);
 
 int main()
 {
+    clockType *myClock;
     twelveHrClock tclock(11, 59, 0, PM);
+    myClock = &tclock;
     std::cout << tclock.tostring() << std::endl;
     clockTick(tclock, timePartType::MINUTE);
     std::cout << tclock.tostring() << std::endl;
     clockTick(tclock, timePartType::HOUR);
     std::cout << tclock.tostring() << std::endl;
+    std::cout << myClock->tostring() << std::endl;
 
     return 0;
 }
