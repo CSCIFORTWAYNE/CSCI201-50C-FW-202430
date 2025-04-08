@@ -42,7 +42,7 @@ void clockType::incrementMinutes()
     }
 }
 
-void clockType::incrementHours()
+void twentyFourHrClock::incrementHours()
 {
     hr++;
     if (hr > 23)
@@ -128,10 +128,7 @@ void clockType::setSecond(int s)
 
 clockType::clockType(int h, int m, int s) : hr{h}, min{m}, sec{s}
 {
-    if (!validHr())
-    {
-        invalidHour();
-    }
+
     if (!validMin())
     {
         std::cout << "Minutes must be between 0 and 59" << std::endl;
@@ -147,17 +144,9 @@ clockType::clockType(int h, int m, int s) : hr{h}, min{m}, sec{s}
     // setTime(h, m, s);
 }
 
-bool clockType::validHr() const
+bool twentyFourHrClock::validHr() const
 {
-    /* bool valid = true;
-    if (format == TWENTYFOUR)
-    {
-        valid = hr >= 0 && hr <= 23;
-    }
-    else
-    {
-        valid = hr >= 1 && hr <= 12;
-    } */
+
     return hr >= 0 && hr <= 23; //&& sec >= 0 && sec <= 59 && min >= 0 && min <= 59;
 }
 
@@ -171,18 +160,9 @@ bool clockType::validSec() const
     return sec >= 0 && sec <= 59;
 }
 
-void clockType::invalidHour()
+void twentyFourHrClock::invalidHour()
 {
-    /* if (format == TWENTYFOUR)
-    {
 
-    }
-    else
-    {
-        std::cout << "Hours must be between 1 and 12." << std::endl;
-        std::cout << "Defaulting to 12." << std::endl;
-        hr = 12;
-    } */
     std::cout << "Hours must be between 0 and 23." << std::endl;
     std::cout << "Defaulting to 0." << std::endl;
     hr = 0;
@@ -249,15 +229,10 @@ void twelveHrClock::setPartOfDay(std::string part)
         partOfDay = PM;
     }
 }
-void twelveHrClock::setTime(int hr, int min, int sec)
-{
-    setHour(hr);
-    setMinute(min);
-    setSecond(sec);
-}
+
 void twelveHrClock::setTime(int hr, int min, int sec, partType part)
 {
-    setTime(hr, min, sec);
+    clockType::setTime(hr, min, sec);
     partOfDay = part;
 }
 
@@ -278,5 +253,13 @@ void twelveHrClock::incrementHours()
     else if (hr > 12)
     {
         hr = 1;
+    }
+}
+
+twentyFourHrClock::twentyFourHrClock(int h, int m, int s) : clockType(h, m, s)
+{
+    if (!validHr())
+    {
+        invalidHour();
     }
 }

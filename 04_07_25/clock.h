@@ -20,16 +20,16 @@ enum partType
 class clockType
 {
 public:
-    clockType(int, int, int);
+    clockType(int = 0, int = 0, int = 0);
 
-    virtual void setTime(int, int, int);
+    void setTime(int, int, int);
     void getTime(int &, int &, int &) const;
     // void printTime() const;
     virtual std::string tostring() const;
     void incrementSeconds();
     void incrementMinutes();
-    virtual void incrementHours();
-    virtual void invalidHour();
+    virtual void incrementHours() = 0;
+    virtual void invalidHour() = 0;
     bool equalTime(const clockType &) const;
     int getHour() const;
     int getMinute() const;
@@ -37,7 +37,7 @@ public:
     virtual void setHour(int h);
     void setMinute(int m);
     void setSecond(int s);
-    virtual bool validHr() const;
+    virtual bool validHr() const = 0;
     bool validMin() const;
     bool validSec() const;
 
@@ -63,10 +63,19 @@ public:
     std::string tostring() const;
     std::string getPartOfDay() const;
     void setPartOfDay(std::string);
-    void setTime(int, int, int);
+
     void setTime(int, int, int, partType);
 
 private:
     partType partOfDay;
+};
+
+class twentyFourHrClock : public clockType
+{
+public:
+    twentyFourHrClock(int h, int m, int s);
+    void incrementHours();
+    void invalidHour();
+    bool validHr() const;
 };
 #endif

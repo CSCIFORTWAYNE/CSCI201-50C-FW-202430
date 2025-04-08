@@ -13,22 +13,52 @@ enum class timePartType
 
 void clockTick(clockType &clockToTick, timePartType timePart = timePartType::SECOND);
 bool codeGradeLoopFix();
-void makeClock();
+clockType *makeClock();
 bool validFormat(std::string format);
 void resetStream();
 bool validPart(std::string part);
+bool validPositiveInt(int num);
+int inputPositiveInt(std::string prompt, std::string err);
 
 int main()
 {
-    clockType *myClock;
+
+    clockType **c = nullptr;
+    int numClocks = 0;
+    numClocks = inputPositiveInt("How many clocks do you want to make? ", "Please enter a positive number of clocks!");
+    if (numClocks == -999)
+    {
+        return 0;
+    }
+    c = new clockType *[numClocks];
+    for (int i = 0; i < numClocks; i++)
+    {
+        c[i] = makeClock();
+        if (c[i] == nullptr)
+        {
+            return 0;
+        }
+    }
+
+    std::cout << "All of the clocks: " << std::endl;
+    for (int i = 0; i < numClocks; i++)
+    {
+        std::cout << c[i]->tostring() << std::endl;
+        delete c[i];
+        c[i] = nullptr;
+    }
+    delete[] c;
+    c = nullptr;
+
+    /* twentyFourHrClock myClock(0, 0, 0);
     twelveHrClock tclock(11, 59, 0, PM);
-    myClock = &tclock;
+    // myClock = &tclock;
     std::cout << tclock.tostring() << std::endl;
     clockTick(tclock, timePartType::MINUTE);
     std::cout << tclock.tostring() << std::endl;
     clockTick(tclock, timePartType::HOUR);
     std::cout << tclock.tostring() << std::endl;
-    std::cout << myClock->tostring() << std::endl;
+    std::cout << myClock.tostring() << std::endl; */
 
     return 0;
 }
@@ -48,6 +78,7 @@ void clockTick(clockType &clockToTick, timePartType timePart)
         clockToTick.incrementSeconds();
         break;
     }
+    std::cout << clockToTick.tostring() << std::endl;
 }
 
 bool codeGradeLoopFix()
@@ -60,13 +91,14 @@ bool codeGradeLoopFix()
     return false;
 }
 
-void makeClock()
+clockType *makeClock()
 {
     std::string format;
     timeType clockFormat = TWENTYFOUR;
     int hr, min, sec;
     std::string p;
     partType part = PM;
+    clockType *newClock = nullptr;
     std::cout << "Would you like a 12 hour clock or a 24 hour clock? " << std::endl;
     std::cin >> std::ws;
     getline(std::cin, format);
@@ -74,7 +106,7 @@ void makeClock()
     {
         if (codeGradeLoopFix())
         {
-            return;
+            return nullptr;
         }
         std::cout << format << " is not a valid clock format." << std::endl;
         std::cout << "Would you like a 12 hour clock or a 24 hour clock? " << std::endl;
@@ -97,7 +129,7 @@ void makeClock()
         {
             if (codeGradeLoopFix())
             {
-                return;
+                return nullptr;
             }
             else if (!std::cin)
             {
@@ -113,7 +145,7 @@ void makeClock()
         {
             if (codeGradeLoopFix())
             {
-                return;
+                return nullptr;
             }
             else if (!std::cin)
             {
@@ -137,7 +169,7 @@ void makeClock()
         {
             if (codeGradeLoopFix())
             {
-                return;
+                return nullptr;
             }
             std::cout << part << " is not a valid clock part." << std::endl;
             std::cout << "Is it AM or PM? ";
@@ -153,14 +185,15 @@ void makeClock()
                 part = clockType::parts[i];
             }
         }
-        twelveHrClock newClock(hr, min, sec, part);
-        std::cout << newClock.tostring() << std::endl;
+        newClock = new twelveHrClock(hr, min, sec, part);
+        std::cout << newClock->tostring() << std::endl;
     }
     else
     {
-        clockType newClock(hr, min, sec);
-        std::cout << newClock.tostring() << std::endl;
+        newClock = new twentyFourHrClock(hr, min, sec);
+        std::cout << newClock->tostring() << std::endl;
     }
+    return newClock;
 }
 
 bool validFormat(std::string format)
@@ -194,4 +227,31 @@ bool validPart(std::string part)
         }
     }
     return false;
+}
+
+bool validPositiveInt(int num)
+{
+    return num > 0;
+}
+
+int inputPositiveInt(std::string prompt, std::string err)
+{
+    int input;
+    std::cout << prompt;
+    std::cin >> input;
+    while (!std::cin || !validPositiveInt(input))
+    {
+        if (codeGradeLoopFix())
+        {
+            return -999;
+        }
+        if (!std::cin)
+        {
+            resetStream();
+        }
+        std::cout << err << std::endl;
+        std::cout << prompt;
+        std::cin >> input;
+    }
+    return input;
 }
