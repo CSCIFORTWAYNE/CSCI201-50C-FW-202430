@@ -20,6 +20,8 @@ bool validPart(std::string part);
 bool validPositiveInt(int num);
 int inputPositiveInt(std::string prompt, std::string err);
 
+// lecture activity create an input.txt document that contains the input to create 20 clocks. Randomize between 12 and 24 hour clocks and randomize the times.
+
 int main()
 {
 
