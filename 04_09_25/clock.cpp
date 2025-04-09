@@ -281,3 +281,35 @@ bool operator==(const twelveHrClock &leftClock, const twelveHrClock &rightClock)
     }
     return leftClock.hr == rightClock.hr && leftClock.min == rightClock.min && leftClock.sec == rightClock.sec;
 }
+
+bool twelveHrClock::operator==(const twentyFourHrClock &rightClock) const
+{
+    int standardHour = hr;
+
+    if (standardHour == 12)
+    {
+        standardHour = 0;
+    }
+    if (partOfDay == PM)
+    {
+        standardHour = standardHour + 12;
+    }
+    return standardHour == rightClock.getHour() && this->min == rightClock.getMinute() && this->sec == rightClock.getSecond();
+}
+
+bool operator==(const twentyFourHrClock &leftclock, const twelveHrClock &rightClock)
+{
+    return rightClock == leftclock;
+}
+
+std::ostream &operator<<(std::ostream &outputStream, const clockType &clockToPrint)
+{
+    outputStream << clockToPrint.tostring();
+    return outputStream;
+}
+
+std::ostream &operator<<(std::ostream &out, const twelveHrClock &clockToPrint)
+{
+    out << clockToPrint.tostring(); // << " " << clockType::partToStr[clockToPrint.partOfDay];
+    return out;
+}

@@ -54,8 +54,16 @@ int main()
 
     twentyFourHrClock myClock(0, 0, 0);
     twelveHrClock tclock(11, 59, 0, PM);
-    twelveHrClock tclock1(11, 59, 0, PM);
+    twelveHrClock tclock1(12, 0, 0, AM);
     if (tclock == tclock1)
+    {
+        std::cout << "The clocks are the same!" << std::endl;
+    }
+    else
+    {
+        (std::cout << "The clocks are different!") << std::endl;
+    }
+    if (myClock == tclock1)
     {
         std::cout << "The clocks are the same!" << std::endl;
     }
@@ -63,6 +71,7 @@ int main()
     {
         std::cout << "The clocks are different!" << std::endl;
     }
+    clockTick(tclock, timePartType::MINUTE);
 
     /* // myClock = &tclock;
     std::cout << tclock.tostring() << std::endl;
@@ -90,7 +99,7 @@ void clockTick(clockType &clockToTick, timePartType timePart)
         clockToTick.incrementSeconds();
         break;
     }
-    std::cout << clockToTick.tostring() << std::endl;
+    std::cout << clockToTick << std::endl;
 }
 
 bool codeGradeLoopFix()
@@ -198,12 +207,12 @@ clockType *makeClock()
             }
         }
         newClock = new twelveHrClock(hr, min, sec, part);
-        std::cout << newClock->tostring() << std::endl;
+        std::cout << newClock << std::endl;
     }
     else
     {
         newClock = new twentyFourHrClock(hr, min, sec);
-        std::cout << newClock->tostring() << std::endl;
+        std::cout << newClock << std::endl;
     }
     return newClock;
 }

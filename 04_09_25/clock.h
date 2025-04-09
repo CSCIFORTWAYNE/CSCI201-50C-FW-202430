@@ -25,7 +25,7 @@ public:
     void setTime(int, int, int);
     void getTime(int &, int &, int &) const;
     // void printTime() const;
-    virtual std::string tostring() const;
+
     void incrementSeconds();
     void incrementMinutes();
     virtual void incrementHours() = 0;
@@ -46,31 +46,13 @@ public:
     static partType parts[2];
     static std::string formatToStr[2];
     static std::string partToStr[2];
+    friend std::ostream &operator<<(std::ostream &outputStream, const clockType &clockToPrint);
 
 protected:
     int hr;
     int min;
     int sec;
-};
-
-class twelveHrClock : public clockType
-{
-public:
-    twelveHrClock(int h, int m, int s, partType part);
-    bool validHr() const;
-    void setHour(int h);
-    void invalidHour();
-    void incrementHours();
-    std::string tostring() const;
-    std::string getPartOfDay() const;
-    void setPartOfDay(std::string);
-
-    void setTime(int, int, int, partType);
-    // bool operator==(const twelveHrClock &rightClock) const;
-    friend bool operator==(const twelveHrClock &leftClock, const twelveHrClock &rightClock);
-
-private:
-    partType partOfDay;
+    virtual std::string tostring() const;
 };
 
 class twentyFourHrClock : public clockType
@@ -81,4 +63,29 @@ public:
     void invalidHour();
     bool validHr() const;
 };
+
+class twelveHrClock : public clockType
+{
+public:
+    twelveHrClock(int h, int m, int s, partType part);
+    bool validHr() const;
+    void setHour(int h);
+    void invalidHour();
+    void incrementHours();
+
+    std::string getPartOfDay() const;
+    void setPartOfDay(std::string);
+
+    void setTime(int, int, int, partType);
+    // bool operator==(const twelveHrClock &rightClock) const;
+    friend bool operator==(const twelveHrClock &leftClock, const twelveHrClock &rightClock);
+    bool operator==(const twentyFourHrClock &rightClock) const;
+    friend bool operator==(const twentyFourHrClock &leftclock, const twelveHrClock &rightClock);
+    friend std::ostream &operator<<(std::ostream &out, const twelveHrClock &clockToPrint);
+
+private:
+    partType partOfDay;
+    std::string tostring() const;
+};
+
 #endif
