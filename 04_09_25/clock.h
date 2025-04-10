@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <sstream>
 #include <algorithm>
+#include <stdexcept>
 
 enum timeType
 {
@@ -47,6 +48,7 @@ public:
     static std::string formatToStr[2];
     static std::string partToStr[2];
     friend std::ostream &operator<<(std::ostream &outputStream, const clockType &clockToPrint);
+    friend std::istream &operator>>(std::istream &inputStream, clockType &clockToInput);
 
 protected:
     int hr;

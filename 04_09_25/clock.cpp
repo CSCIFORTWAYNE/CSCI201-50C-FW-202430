@@ -120,9 +120,10 @@ void clockType::setSecond(int s)
     sec = s;
     if (!validSec())
     {
-        std::cout << "Seconds must be between 0 and 59" << std::endl;
-        std::cout << "Defaulting to 0." << std::endl;
+        /* std::cout << "Seconds must be between 0 and 59" << std::endl;
+        std::cout << "Defaulting to 0." << std::endl; */
         sec = 0;
+        throw std::invalid_argument("Seconds must be between 0 and 59");
     }
 }
 
@@ -312,4 +313,14 @@ std::ostream &operator<<(std::ostream &out, const twelveHrClock &clockToPrint)
 {
     out << clockToPrint.tostring(); // << " " << clockType::partToStr[clockToPrint.partOfDay];
     return out;
+}
+
+std::istream &operator>>(std::istream &inputStream, clockType &clockToInput)
+{
+    int hour = 0;
+    int minute = 0;
+    int second = 0;
+    inputStream >> hour >> minute >> second;
+    clockToInput.setTime(hour, minute, second);
+    return inputStream;
 }

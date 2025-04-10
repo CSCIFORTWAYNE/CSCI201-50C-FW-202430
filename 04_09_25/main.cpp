@@ -72,6 +72,7 @@ int main()
         std::cout << "The clocks are different!" << std::endl;
     }
     clockTick(tclock, timePartType::MINUTE);
+    std::cin >> myClock;
 
     /* // myClock = &tclock;
     std::cout << tclock.tostring() << std::endl;
