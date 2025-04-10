@@ -87,10 +87,14 @@ class twelveHrClock : public clockType
 {
 public:
     twelveHrClock(int h, int m, int s, partType part);
+    twelveHrClock(const twentyFourHrClock &otherClock);
     bool validHr() const;
     void setHour(int h);
     void invalidHour();
     void incrementHours();
+    void convertTo12Hr(int h);
+    const twelveHrClock &operator=(const twelveHrClock &rightClock);
+    const twelveHrClock &operator=(const twentyFourHrClock &rightClock);
 
     std::string getPartOfDay() const;
     partType getPart() const { return partOfDay; };

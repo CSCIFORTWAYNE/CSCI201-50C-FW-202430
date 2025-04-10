@@ -76,6 +76,7 @@ int main()
     std::cin >> myClock;
     myClock = tclock1;
     std::cout << myClock << std::endl;
+    myClock = myClock1;
 
     /* // myClock = &tclock;
     std::cout << tclock.tostring() << std::endl;

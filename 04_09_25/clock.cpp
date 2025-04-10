@@ -366,3 +366,46 @@ int clockType::convertTo24Hr(int hour, partType part)
     }
     return standardHour;
 }
+
+twelveHrClock::twelveHrClock(const twentyFourHrClock &otherClock)
+{
+    convertTo12Hr(otherClock.getHour());
+    this->min = otherClock.getMinute();
+    this->sec = otherClock.getSecond();
+}
+
+void twelveHrClock::convertTo12Hr(int h)
+{
+    if (h >= 12)
+    {
+        partOfDay == PM;
+        if (h != 12)
+        {
+            h -= 12;
+        }
+    }
+    else
+    {
+        partOfDay == AM;
+    }
+    hr = h;
+}
+
+const twelveHrClock &twelveHrClock::operator=(const twelveHrClock &rightClock)
+{
+    if (this != &rightClock)
+    {
+        this->hr = rightClock.hr;
+        this->min = rightClock.min;
+        this->sec = rightClock.sec;
+        this->partOfDay = rightClock.partOfDay;
+    }
+    return *this;
+}
+const twelveHrClock &twelveHrClock::operator=(const twentyFourHrClock &rightClock)
+{
+    convertTo12Hr(rightClock.getHour());
+    this->min = rightClock.getMinute();
+    this->sec = rightClock.getMinute();
+    return *this;
+}
