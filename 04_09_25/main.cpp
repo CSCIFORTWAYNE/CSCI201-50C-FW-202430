@@ -20,7 +20,7 @@ bool validPart(std::string part);
 bool validPositiveInt(int num);
 int inputPositiveInt(std::string prompt, std::string err);
 
-// lecture activity create an input.txt document that contains the input to create 20 clocks. Randomize between 12 and 24 hour clocks and randomize the times.
+// lecture activity implement the > < >= <= and != operators in the two clock classes. submit the modified clock.cpp file
 
 int main()
 {
@@ -54,7 +54,8 @@ int main()
 
     twentyFourHrClock myClock(0, 0, 0);
     twelveHrClock tclock(11, 59, 0, PM);
-    twelveHrClock tclock1(12, 0, 0, AM);
+    twentyFourHrClock myClock1 = tclock;
+    twelveHrClock tclock1 = myClock1;
     if (tclock == tclock1)
     {
         std::cout << "The clocks are the same!" << std::endl;
@@ -73,6 +74,8 @@ int main()
     }
     clockTick(tclock, timePartType::MINUTE);
     std::cin >> myClock;
+    myClock = tclock1;
+    std::cout << myClock << std::endl;
 
     /* // myClock = &tclock;
     std::cout << tclock.tostring() << std::endl;

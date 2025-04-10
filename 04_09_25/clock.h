@@ -49,6 +49,8 @@ public:
     static std::string partToStr[2];
     friend std::ostream &operator<<(std::ostream &outputStream, const clockType &clockToPrint);
     friend std::istream &operator>>(std::istream &inputStream, clockType &clockToInput);
+    const clockType &operator=(const clockType &);
+    int convertTo24Hr(int hr, partType part);
 
 protected:
     int hr;
@@ -56,14 +58,29 @@ protected:
     int sec;
     virtual std::string tostring() const;
 };
-
+class twelveHrClock;
 class twentyFourHrClock : public clockType
 {
 public:
     twentyFourHrClock(int h, int m, int s);
+    twentyFourHrClock(const twelveHrClock &);
     void incrementHours();
     void invalidHour();
     bool validHr() const;
+    const twentyFourHrClock &operator=(const twelveHrClock &rightClock);
+    // letcture activity functions
+    friend bool operator>(const twentyFourHrClock &leftClock, const twentyFourHrClock &rightclock);
+    friend bool operator>(const twentyFourHrClock &leftClock, const twelveHrClock &rightclock);
+    friend bool operator>(const twelveHrClock &leftClock, const twentyFourHrClock &rightclock);
+    friend bool operator>=(const twentyFourHrClock &leftClock, const twentyFourHrClock &rightclock);
+    friend bool operator>=(const twentyFourHrClock &leftClock, const twelveHrClock &rightclock);
+    friend bool operator>=(const twelveHrClock &leftClock, const twentyFourHrClock &rightclock);
+    friend bool operator<(const twentyFourHrClock &leftClock, const twentyFourHrClock &rightclock);
+    friend bool operator<(const twentyFourHrClock &leftClock, const twelveHrClock &rightclock);
+    friend bool operator<(const twelveHrClock &leftClock, const twentyFourHrClock &rightclock);
+    friend bool operator<=(const twentyFourHrClock &leftClock, const twentyFourHrClock &rightclock);
+    friend bool operator<=(const twentyFourHrClock &leftClock, const twelveHrClock &rightclock);
+    friend bool operator<=(const twelveHrClock &leftClock, const twentyFourHrClock &rightclock);
 };
 
 class twelveHrClock : public clockType
@@ -76,6 +93,7 @@ public:
     void incrementHours();
 
     std::string getPartOfDay() const;
+    partType getPart() const { return partOfDay; };
     void setPartOfDay(std::string);
 
     void setTime(int, int, int, partType);
@@ -84,6 +102,21 @@ public:
     bool operator==(const twentyFourHrClock &rightClock) const;
     friend bool operator==(const twentyFourHrClock &leftclock, const twelveHrClock &rightClock);
     friend std::ostream &operator<<(std::ostream &out, const twelveHrClock &clockToPrint);
+
+    // lecture activity functions
+    bool operator!=(const twelveHrClock);
+    friend bool operator>(const twelveHrClock &leftClock, const twelveHrClock &rightclock);
+    friend bool operator>(const twentyFourHrClock &leftClock, const twelveHrClock &rightclock);
+    friend bool operator>(const twelveHrClock &leftClock, const twentyFourHrClock &rightclock);
+    friend bool operator>=(const twelveHrClock &leftClock, const twelveHrClock &rightclock);
+    friend bool operator>=(const twentyFourHrClock &leftClock, const twelveHrClock &rightclock);
+    friend bool operator>=(const twelveHrClock &leftClock, const twentyFourHrClock &rightclock);
+    friend bool operator<(const twelveHrClock &leftClock, const twelveHrClock &rightclock);
+    friend bool operator<(const twentyFourHrClock &leftClock, const twelveHrClock &rightclock);
+    friend bool operator<(const twelveHrClock &leftClock, const twentyFourHrClock &rightclock);
+    friend bool operator<=(const twelveHrClock &leftClock, const twelveHrClock &rightclock);
+    friend bool operator<=(const twentyFourHrClock &leftClock, const twelveHrClock &rightclock);
+    friend bool operator<=(const twelveHrClock &leftClock, const twentyFourHrClock &rightclock);
 
 private:
     partType partOfDay;

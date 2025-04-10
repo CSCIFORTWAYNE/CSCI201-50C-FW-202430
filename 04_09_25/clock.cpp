@@ -324,3 +324,45 @@ std::istream &operator>>(std::istream &inputStream, clockType &clockToInput)
     clockToInput.setTime(hour, minute, second);
     return inputStream;
 }
+
+const clockType &clockType::operator=(const clockType &rightClock)
+{
+    if (this != &rightClock)
+    {
+        this->hr = rightClock.hr;
+        this->min = rightClock.min;
+        this->sec = rightClock.sec;
+    }
+    return *this;
+}
+
+const twentyFourHrClock &twentyFourHrClock::operator=(const twelveHrClock &rightClock)
+{
+
+    this->hr = convertTo24Hr(rightClock.getHour(), rightClock.getPart());
+    this->min = rightClock.getMinute();
+    this->sec = rightClock.getSecond();
+    return *this;
+}
+
+twentyFourHrClock::twentyFourHrClock(const twelveHrClock &otherClock)
+{
+    this->hr = convertTo24Hr(otherClock.getHour(), otherClock.getPart());
+    this->min = otherClock.getMinute();
+    this->sec = otherClock.getSecond();
+}
+
+int clockType::convertTo24Hr(int hour, partType part)
+{
+    int standardHour = hour;
+
+    if (standardHour == 12)
+    {
+        standardHour = 0;
+    }
+    if (part == PM)
+    {
+        standardHour = standardHour + 12;
+    }
+    return standardHour;
+}
