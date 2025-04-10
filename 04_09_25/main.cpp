@@ -24,7 +24,9 @@ int inputPositiveInt(std::string prompt, std::string err);
 
 int main()
 {
-
+    int x = 7;
+    int y = ++x; // x = x + 1;
+    y = x++;
     /* clockType **c = nullptr;
     int numClocks = 0;
     numClocks = inputPositiveInt("How many clocks do you want to make? ", "Please enter a positive number of clocks!");

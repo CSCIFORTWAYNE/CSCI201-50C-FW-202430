@@ -409,3 +409,30 @@ const twelveHrClock &twelveHrClock::operator=(const twentyFourHrClock &rightCloc
     this->sec = rightClock.getMinute();
     return *this;
 }
+
+twentyFourHrClock twentyFourHrClock::operator++()
+{
+    this->incrementSeconds();
+    return *this;
+}
+
+twentyFourHrClock twentyFourHrClock::operator++(int)
+{
+    twentyFourHrClock cpy = *this;
+    this->incrementSeconds();
+    return cpy;
+}
+
+twentyFourHrClock twentyFourHrClock::operator+(int secondsToAdd)
+{
+    for (int i = 0; i < secondsToAdd; i++)
+    {
+        incrementSeconds();
+    }
+    return *this;
+}
+
+twentyFourHrClock operator+(int secondsToAdd, twentyFourHrClock &rightClock)
+{
+    return rightClock + secondsToAdd;
+}

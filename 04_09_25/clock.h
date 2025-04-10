@@ -68,6 +68,10 @@ public:
     void invalidHour();
     bool validHr() const;
     const twentyFourHrClock &operator=(const twelveHrClock &rightClock);
+    twentyFourHrClock operator++();
+    twentyFourHrClock operator++(int);
+    twentyFourHrClock operator+(int);
+    friend twentyFourHrClock operator+(int, twentyFourHrClock &);
     // letcture activity functions
     friend bool operator>(const twentyFourHrClock &leftClock, const twentyFourHrClock &rightclock);
     friend bool operator>(const twentyFourHrClock &leftClock, const twelveHrClock &rightclock);
