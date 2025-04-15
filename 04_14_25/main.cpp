@@ -3,6 +3,8 @@
 #include <ctime>
 #include <vector>
 #include <algorithm>
+#include <map>
+#include <random>
 #include "clock.h"
 #include "drink.h"
 
@@ -28,21 +30,65 @@ int inputInt(std::string prompt, std::string err, bool (*func)(int, int, int), i
 
 int main()
 {
-    std::vector<int> intVector;
+    // std::vector<int> intVector;
+    std::vector<clockType *> timeClockIn;
+    std::vector<clockType *> timeClockOut;
     srand(time(0));
-
+    std::default_random_engine generator;
+    std::uniform_real_distribution<double> distribution(0.0, 1.0);
+    double a = distribution(generator);
+    double b = distribution(generator);
+    double largerDouble = larger(a, b);
+    std::cout << "The larger value is " << largerDouble << " from a = " << a << " and b = " << b << std::endl;
     int x = rand() % 10 + 1;
     int y = rand() % 10 + 1;
     int largerInt = larger(x, y);
     std::cout << "The larger value is " << largerInt << " from x = " << x << " and y = " << y << std::endl;
 
-    for (int i = 0; i < 52; i++)
+    std::uniform_int_distribution<int> distributionClockType(1, 2);
+    std::uniform_int_distribution<int> distributionClockNum(1, 100);
+    std::uniform_int_distribution<int> distributionClock24Hr(0, 23);
+    std::uniform_int_distribution<int> distributionClock12Hr(1, 12);
+    std::uniform_int_distribution<int> distributionClockMin(0, 59);
+
+    int numClocks = distributionClockNum(generator);
+    for (int i = 0; i < numClocks; i++)
+    {
+        clockType *clock;
+        timeType clockT = clockType::intToTimeType.at(distributionClockType(generator) * 12);
+        int min = distributionClockMin(generator);
+        int sec = distributionClockMin(generator);
+        if (clockT == TWELVE)
+        {
+            int hr = distributionClock12Hr(generator);
+            partType part = clockType::intToPartType.at(distributionClockType(generator));
+            clock = new twelveHrClock(hr, min, sec, part);
+        }
+        else
+        {
+            int hr = distributionClock24Hr(generator);
+            clock = new twentyFourHrClock(hr, min, sec);
+        }
+        timeClockIn.push_back(clock);
+    }
+
+    for (int i = 0; i < timeClockIn.size(); i++)
+    {
+        std::cout << *(timeClockIn[i]) << std::endl;
+    }
+
+    // twelveHrClock c = larger(*timeClockIn[0], *timeClockIn[1]);
+    // std::cout << c << std::endl;
+
+    /* for (int i = 0; i < 52; i++)
     {
         int randNum = rand() % 100 + 1;
         intVector.push_back(randNum);
         std::cout << intVector[i] << std::endl;
-    }
+    } */
     // clockType largerClock = larger(clockType(1, 0, 0), clockType(2, 0, 0));
+
+    drink newDrink(inputDrinkBase(), inputDrinkTemperature(), inputDrinkSize(), inputDrinkDairy(), inputDrinkFlavor());
     return 0;
 }
 
@@ -94,29 +140,54 @@ clockType &larger(clockType &num1, clockType &num2)
 
 drink::sizeType inputDrinkSize()
 {
-    std::ostringstream out;
 
-    out << "Please choose the drink size:" << std::endl;
-    for (int i = 0; i < ENUM_NUM; i++)
-    {
-        out << i + 1 << ": " << sizeStr[i] << std::endl;
-    }
-    int drinkSize = inputInt(out.str(), "That is not a valid drink Size!", numInRange, 1, 3);
-
-    return sizes[drinkSize - 1];
+    return drink::MED;
 }
 
 drink::baseType inputDrinkBase()
 {
     std::string inputBase;
-    std::cout << "Would you like Coffee, Tea, or Cream? ";
+    std::cout << "Would you like ";
+    std::map<drink::baseType, std::string>::const_iterator it = drink::baseToStr.begin();
+    std::cout << it->second;
+    for (++it; it != drink::baseToStr.end(); ++it)
+    {
+        auto itCpy = it;
+        ++itCpy;
+        if (itCpy == drink::baseToStr.end())
+        {
+            std::cout << ", or ";
+        }
+        else
+        {
+            std::cout << ", ";
+        }
+        std::cout << it->second;
+    }
+    std::cout << "? ";
     std::cin >> std::ws;
     getline(std::cin, inputBase);
     std::transform(inputBase.begin(), inputBase.end(), inputBase.begin(), ::toupper);
     while (!drink::strToBase.count(inputBase))
     {
         std::cout << inputBase << " is not a valid choice" << std::endl;
-        std::cout << "Would you like Coffee, Tea, or Cream? ";
+        it = drink::baseToStr.begin();
+        std::cout << it->second;
+        for (++it; it != drink::baseToStr.end(); ++it)
+        {
+            auto itCpy = it;
+            ++itCpy;
+            if (itCpy == drink::baseToStr.end())
+            {
+                std::cout << ", or";
+            }
+            else
+            {
+                std::cout << ", ";
+            }
+            std::cout << it->second;
+        }
+        std::cout << "? ";
         std::cin >> std::ws;
         getline(std::cin, inputBase);
         std::transform(inputBase.begin(), inputBase.end(), inputBase.begin(), ::toupper);
@@ -127,16 +198,8 @@ drink::baseType inputDrinkBase()
 
 drink::tempType inputDrinkTemperature()
 {
-    std::ostringstream out;
-    int drinkTemp;
-    out << "Please choose the drink temperature:" << std::endl;
-    for (int i = 0; i < ENUM_NUM; i++)
-    {
-        out << i + 1 << ": " << tempStr[i] << std::endl;
-    }
-    drinkTemp = inputInt(out.str(), "That is not a valid drink temperature!", numInRange, 1, 3);
 
-    return temps[drinkTemp - 1];
+    return drink::ICE;
 }
 
 std::string inputDrinkFlavor()
@@ -184,7 +247,7 @@ int inputInt(std::string prompt, std::string err, bool (*func)(int, int, int), i
         if (!std::cin)
         {
             std::cout << "You entered something that is not a number." << std::endl;
-            resetStream();
+            // resetStream();
         }
         std::cout << err << std::endl;
         std::cout << prompt;

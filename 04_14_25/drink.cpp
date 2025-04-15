@@ -7,6 +7,19 @@ const std::map<drink::baseType, std::string> drink::baseToStr = {{drink::COFFEE,
 const std::map<std::string, drink::baseType> drink::strToBase = {{"COFFEE", drink::COFFEE},
                                                                  {"TEA", drink::TEA},
                                                                  {"CREAM", drink::CREAM}};
+const std::map<drink::sizeType, std::string> drink::sizeToStr = {{drink::SMALL, "Small"},
+                                                                 {drink::MED, "Medium"},
+                                                                 {drink::LARGE, "Large"}};
+const std::map<std::string, drink::sizeType> drink::strToSize = {{"SMALL", drink::SMALL},
+                                                                 {"MEDIUM", drink::MED},
+                                                                 {"LARGE", drink::LARGE}};
+;
+const std::map<drink::tempType, std::string> drink::tempToStr = {{drink::HOT, "Hot"},
+                                                                 {drink::ICE, "Iced"},
+                                                                 {drink::BLEND, "Blended"}};
+const std::map<std::string, drink::tempType> drink::strToTemp = {{"HOT", drink::HOT},
+                                                                 {"ICED", drink::ICE},
+                                                                 {"BLENDED", drink::BLEND}};
 
 int drink::numDrinks = 0;
 
@@ -17,7 +30,7 @@ std::string drink::getBaseStr() const
 
 std::string drink::getTemperature() const
 {
-    return tempStr[temperature];
+    return tempToStr.at(temperature);
 }
 
 drink::drink(baseType b, tempType t, sizeType s, std::string d, std::string f)
@@ -31,7 +44,7 @@ drink::drink(baseType b, tempType t, sizeType s, std::string d, std::string f)
 
 std::string drink::getSize() const
 {
-    return sizeStr[size];
+    return sizeToStr.at(size);
 }
 std::string drink::getDairy() const
 {
@@ -135,17 +148,11 @@ void drink::setBase(baseType b)
 
 void drink::setTemperature(tempType t)
 {
-    bool set = false;
-    for (int i = 0; i < ENUM_NUM; i++)
+    if (tempToStr.count(t) == 1)
     {
-        if (t == temps[i])
-        {
-            temperature = t;
-            set = true;
-            break;
-        }
+        temperature = t;
     }
-    if (!set)
+    else
     {
         temperature = HOT;
     }
@@ -158,17 +165,11 @@ void drink::setDairy(std::string d)
 
 void drink::setSize(sizeType s)
 {
-    bool set = false;
-    for (int i = 0; i < ENUM_NUM; i++)
+    if (sizeToStr.count(s) == 1)
     {
-        if (s == sizes[i])
-        {
-            size = s;
-            set = true;
-            break;
-        }
+        size = s;
     }
-    if (!set)
+    else
     {
         size = LARGE;
     }

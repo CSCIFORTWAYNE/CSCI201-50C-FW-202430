@@ -6,6 +6,7 @@
 #include <sstream>
 #include <algorithm>
 #include <stdexcept>
+#include <map>
 
 enum timeType
 {
@@ -42,6 +43,8 @@ public:
     bool validMin() const;
     bool validSec() const;
     // bool operator==(const clockType &rightClock) const = 0;
+    static const std::map<int, timeType> intToTimeType;
+    static const std::map<int, partType> intToPartType;
 
     static timeType formats[2];
     static partType parts[2];

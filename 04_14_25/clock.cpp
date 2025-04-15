@@ -1,5 +1,8 @@
 #include "clock.h"
 
+const std::map<int, timeType> clockType::intToTimeType = {{12, TWELVE}, {24, TWENTYFOUR}};
+const std::map<int, partType> clockType::intToPartType = {{1, AM}, {2, PM}};
+
 void clockType::setTime(int h, int m, int s)
 {
     setHour(h);
