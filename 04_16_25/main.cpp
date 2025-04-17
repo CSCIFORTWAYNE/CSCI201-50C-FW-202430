@@ -33,67 +33,75 @@ int main()
     bool validHour = false;
     bool newClock = true;
     timeType clockT;
-    for (int i = 0; i < numClocks; i++)
+    try
     {
+        /* code */
 
-        try
+        for (int i = 0; i < numClocks; i++)
         {
-            clockType *clock;
-            if (newClock)
-            {
-                clockT = clockType::intToTimeType.at(distributionClockType(generator) * 12);
-                newClock = false;
-            }
-            if (!validMinute)
-            {
-                min = distributionClockNum(generator);
-                validMinute = true;
-            }
-            if (!validSecond)
-            {
-                sec = distributionClockNum(generator);
-                // validSecond = true;
-            }
-            if (!validHour)
-            {
-                hr = distributionClockNum(generator);
-                validHour = true;
-            }
-            if (clockT == TWELVE)
-            {
-                partType part = clockType::intToPartType.at(distributionClockType(generator));
-                clock = new twelveHrClock(hr, min, sec, part);
-            }
-            else
-            {
-                clock = new twentyFourHrClock(hr, min, sec);
-            }
-            timeClockIn.push_back(clock);
-            validHour = false;
-            validMinute = false;
-            validSecond = false;
-            newClock = true;
-        }
-        catch (invalid_minute e)
-        {
-            std::cout << e.what() << std::endl;
-            validMinute = false;
-            i--;
-            continue;
-        }
-        catch (std::invalid_argument e)
-        {
-            std::cout << e.what() << std::endl;
 
-            i--;
-            continue;
+            try
+            {
+                clockType *clock;
+                if (newClock)
+                {
+                    clockT = clockType::intToTimeType.at(distributionClockType(generator) * 12);
+                    newClock = false;
+                }
+                if (!validMinute)
+                {
+                    min = distributionClockNum(generator);
+                    validMinute = true;
+                }
+                if (!validSecond)
+                {
+                    sec = distributionClockNum(generator);
+                    // validSecond = true;
+                }
+                if (!validHour)
+                {
+                    hr = distributionClockNum(generator);
+                    validHour = true;
+                }
+                if (clockT == TWELVE)
+                {
+                    partType part = clockType::intToPartType.at(distributionClockType(generator));
+                    clock = new twelveHrClock(hr, min, sec, part);
+                }
+                else
+                {
+                    clock = new twentyFourHrClock(hr, min, sec);
+                }
+                timeClockIn.push_back(clock);
+                validHour = false;
+                validMinute = false;
+                validSecond = false;
+                newClock = true;
+            }
+            catch (invalid_minute e)
+            {
+                std::cout << e.what() << std::endl;
+                validMinute = false;
+                i--;
+                continue;
+            }
+            catch (std::invalid_argument e)
+            {
+                std::cout << e.what() << std::endl;
+
+                i--;
+                continue;
+            }
+        }
+        if (*timeClockIn[0] > *timeClockIn[1])
+        {
+            std::cout << ">" << std::endl;
         }
     }
-    if (*timeClockIn[0] > *timeClockIn[1])
+    catch (const std::exception &e)
     {
-        std::cout << ">" << std::endl;
+        std::cerr << e.what() << '\n';
     }
-
     for (int i = 0; i < timeClockIn.size(); i++)
     {
         std::cout << *(timeClockIn[i]) << std::endl;
@@ -101,4 +109,13 @@ int main()
     }
 
     return 0;
+}
+
+void codeGradeLoopFix()
+{
+    if (std::cin.eof())
+    {
+        // std::cout << "Infinite loop detected. Out of input ending program." << std::endl;
+        throw std::runtime_error("Infinite loop detected. Out of input ending program.");
+    }
 }

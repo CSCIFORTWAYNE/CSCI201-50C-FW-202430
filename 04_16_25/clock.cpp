@@ -114,7 +114,7 @@ void clockType::setMinute(int m)
     {
         min = oldmin;
         throw invalid_minute(m);
-        }
+    }
 }
 
 void clockType::setSecond(int s)
