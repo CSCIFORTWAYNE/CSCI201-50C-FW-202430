@@ -108,13 +108,13 @@ void clockType::setHour(int h)
 
 void clockType::setMinute(int m)
 {
+    int oldmin = min;
     min = m;
     if (!validMin())
     {
-        std::cout << "Minutes must be between 0 and 59" << std::endl;
-        std::cout << "Defaulting to 0." << std::endl;
-        min = 0;
-    }
+        min = oldmin;
+        throw invalid_minute(m);
+        }
 }
 
 void clockType::setSecond(int s)
@@ -130,14 +130,14 @@ void clockType::setSecond(int s)
     }
 }
 
-clockType::clockType(int h, int m, int s)
+/* clockType::clockType(int h, int m, int s)
 {
     setMinute(m);
     setSecond(s);
     // setHour(h);
     hr = h;
     // setTime(h, m, s);
-}
+} */
 
 bool twentyFourHrClock::validHr() const
 {
@@ -179,13 +179,14 @@ void twelveHrClock::invalidHour()
     std::cout << "Defaulting to 12." << std::endl;
     hr = 12;
 }
-twelveHrClock::twelveHrClock(int h, int m, int s, partType part) : clockType(h, m, s)
+twelveHrClock::twelveHrClock(int h, int m, int s, partType part)
 {
+    setTime(h, m, s, part);
     if (!validHr())
     {
         invalidHour();
     }
-    partOfDay = part;
+    // partOfDay = part;
 }
 void twelveHrClock::setHour(int h)
 {
@@ -251,12 +252,9 @@ void twelveHrClock::incrementHours()
     }
 }
 
-twentyFourHrClock::twentyFourHrClock(int h, int m, int s) : clockType(h, m, s)
+twentyFourHrClock::twentyFourHrClock(int h, int m, int s)
 {
-    if (!validHr())
-    {
-        invalidHour();
-    }
+    setTime(h, m, s);
 }
 
 /* bool twelveHrClock::operator==(const twelveHrClock &rightClock) const
@@ -333,7 +331,7 @@ const clockType &clockType::operator=(const clockType &rightClock)
 const twentyFourHrClock &twentyFourHrClock::operator=(const twelveHrClock &rightClock)
 {
 
-    this->hr = convertTo24Hr(rightClock.getHour(), rightClock.getPart());
+    this->hr = rightClock.convertTo24Hr();
     this->min = rightClock.getMinute();
     this->sec = rightClock.getSecond();
     return *this;
@@ -341,20 +339,24 @@ const twentyFourHrClock &twentyFourHrClock::operator=(const twelveHrClock &right
 
 twentyFourHrClock::twentyFourHrClock(const twelveHrClock &otherClock)
 {
-    this->hr = convertTo24Hr(otherClock.getHour(), otherClock.getPart());
+    this->hr = otherClock.convertTo24Hr();
     this->min = otherClock.getMinute();
     this->sec = otherClock.getSecond();
 }
-
-int clockType::convertTo24Hr(int hour, partType part)
+int twentyFourHrClock::convertTo24Hr() const
 {
-    int standardHour = hour;
+    return hr;
+}
+
+int twelveHrClock::convertTo24Hr() const
+{
+    int standardHour = hr;
 
     if (standardHour == 12)
     {
         standardHour = 0;
     }
-    if (part == PM)
+    if (partOfDay == PM)
     {
         standardHour = standardHour + 12;
     }
@@ -431,9 +433,15 @@ twentyFourHrClock operator+(int secondsToAdd, twentyFourHrClock &rightClock)
     return rightClock + secondsToAdd;
 }
 
-/* bool operator>(const clockType &leftClock, const clockType &rightclock)
+bool operator>(const clockType &leftClock, const clockType &rightclock)
 {
-    if (leftClock.hr > rightclock.hr)
+    int leftHr = leftClock.convertTo24Hr();
+    int rightHr = rightclock.convertTo24Hr();
+    if (leftHr < rightHr)
+    {
+        return false;
+    }
+    if (leftHr > rightHr)
     {
         return true;
     }
@@ -441,10 +449,14 @@ twentyFourHrClock operator+(int secondsToAdd, twentyFourHrClock &rightClock)
     {
         return true;
     }
+    else if (leftClock.min < rightclock.min)
+    {
+        return false;
+    }
     else if (leftClock.sec > rightclock.sec)
     {
         return true;
     }
     else
         return false;
-} */
+}

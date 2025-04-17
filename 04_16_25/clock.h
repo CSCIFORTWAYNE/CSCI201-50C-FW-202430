@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <map>
+#include "clockExcept.h"
 
 enum timeType
 {
@@ -22,8 +23,6 @@ enum partType
 class clockType
 {
 public:
-    clockType(int = 0, int = 0, int = 0);
-
     void setTime(int, int, int);
     void getTime(int &, int &, int &) const;
     // void printTime() const;
@@ -53,8 +52,8 @@ public:
     friend std::ostream &operator<<(std::ostream &outputStream, const clockType &clockToPrint);
     friend std::istream &operator>>(std::istream &inputStream, clockType &clockToInput);
     const clockType &operator=(const clockType &);
-    int convertTo24Hr(int hr, partType part);
-    // friend bool operator>(const clockType &leftClock, const clockType &rightclock);
+    virtual int convertTo24Hr() const = 0;
+    friend bool operator>(const clockType &leftClock, const clockType &rightclock);
 
 protected:
     int hr;
@@ -71,6 +70,7 @@ public:
     void incrementHours();
     void invalidHour();
     bool validHr() const;
+    virtual int convertTo24Hr() const;
     const twentyFourHrClock &operator=(const twelveHrClock &rightClock);
     twentyFourHrClock operator++();
     twentyFourHrClock operator++(int);
@@ -101,6 +101,7 @@ public:
     void invalidHour();
     void incrementHours();
     void convertTo12Hr(int h);
+    virtual int convertTo24Hr() const;
     const twelveHrClock &operator=(const twelveHrClock &rightClock);
     const twelveHrClock &operator=(const twentyFourHrClock &rightClock);
 
