@@ -7,8 +7,13 @@ LAYOUT(DrinksWindowLayout, 720, 400)
 	ITEM(Upp::Label, sizeLbl, SetLabel(t_("Drink Size:")).LeftPosZ(12, 104).TopPosZ(28, 20))
 	ITEM(Upp::DropList, dairy, LeftPosZ(148, 200).TopPosZ(184, 20))
 	ITEM(Upp::Label, dairyLbl, SetLabel(t_("Dairy Choice:")).LeftPosZ(12, 104).TopPosZ(184, 20))
+	ITEM(Upp::ParentCtrl, flavorOptions, LeftPosZ(148, 200).TopPosZ(216, 120))
+	ITEM(Upp::Label, flavorLbl, SetLabel(t_("Flavors:")).LeftPosZ(12, 104).TopPosZ(266, 20))
+	ITEM(Upp::EditString, price, SetEditable(false).WantFocus(false).LeftPosZ(148, 200).TopPosZ(348, 20))
+	ITEM(Upp::Label, priceLbl, SetLabel(t_("Price:")).LeftPosZ(12, 104).TopPosZ(348, 20))
+	ITEM(Upp::Button, orderBtn, SetLabel(t_("Add Drink")).LeftPosZ(12, 336).TopPosZ(376, 20))
 END_LAYOUT
 
-LAYOUT(MainAppWindow, 720, 400)
+LAYOUT(MainAppWindow, 720, 420)
 END_LAYOUT
 

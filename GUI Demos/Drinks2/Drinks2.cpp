@@ -1,5 +1,5 @@
 #include "Drinks2.h"
-#include "drinks.h"
+
 
 DrinksWindow::DrinksWindow()
 {
@@ -15,5 +15,18 @@ DrinksWindow::DrinksWindow()
 	for(int i = 0; i < NUM_DAIRY; i++)
 	{
 		scroller_view.dairy.Add(dairyStr[i]);
+	}
+	//int left_start = 0;
+	int optionSize = 100;
+	int checkDist = 20;
+	int checkCount = 0;
+	for(int i = 0; i < NUM_FLAV; i++)
+	{
+		flavor[i].SetLabel(flavStr[i].c_str());
+		scroller_view.flavorOptions.Add(flavor[i].LeftPosZ(optionSize*(i%2), optionSize).TopPosZ(checkDist * checkCount));
+		if(i%2 == 1)
+		{
+			checkCount++;
+		}
 	}
 }
