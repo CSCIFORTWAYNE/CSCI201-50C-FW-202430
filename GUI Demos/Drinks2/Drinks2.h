@@ -2,6 +2,8 @@
 #define _Drinks2_Drinks2_h
 
 #include <CtrlLib/CtrlLib.h>
+#include <sstream>
+#include <iomanip>
 #include "cardGUI.h"
 
 using namespace Upp;
@@ -15,10 +17,13 @@ class DrinksWindow : public WithMainAppWindow<TopWindow>
 {
 public:
 	DrinksWindow();
+	void checkPrice();
+	
 private:
 	AutoScroller scroller;
 	WithDrinksWindowLayout<ParentCtrl> scroller_view;
 	Option flavor[NUM_FLAV];
+	drink d;
 };
 
 #endif

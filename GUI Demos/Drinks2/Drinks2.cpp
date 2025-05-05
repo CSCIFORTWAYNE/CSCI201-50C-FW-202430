@@ -29,4 +29,23 @@ DrinksWindow::DrinksWindow()
 			checkCount++;
 		}
 	}
+	
+	scroller_view.base << [&, this]
+	{
+		baseType b = static_cast<baseType>((int)scroller_view.base);
+		d.setBase(b);
+		checkPrice();
+	};
+}
+
+void DrinksWindow::checkPrice()
+{
+	if((int)scroller_view.base != -1 && (int)scroller_view.temp != -1 && (int)scroller_view.size != -1)
+	{
+		std::ostringstream priceStr;
+		priceStr << std::setprecision(2) << std::fixed << std::showpoint;
+		priceStr << "$" << d.getPrice();
+		scroller_view.price.SetData(priceStr.str());
+	}
+	
 }
