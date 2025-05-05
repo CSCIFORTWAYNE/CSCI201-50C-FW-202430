@@ -2,6 +2,7 @@
 #define _Drinks2_Drinks2_h
 
 #include <CtrlLib/CtrlLib.h>
+#include "cardGUI.h"
 
 using namespace Upp;
 

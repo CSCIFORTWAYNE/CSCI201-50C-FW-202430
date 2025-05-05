@@ -13,8 +13,9 @@ LAYOUT(DrinksWindowLayout, 720, 400)
 	ITEM(Upp::Label, priceLbl, SetLabel(t_("Price:")).LeftPosZ(12, 104).TopPosZ(348, 20))
 	ITEM(Upp::Button, orderBtn, SetLabel(t_("Add Drink")).LeftPosZ(12, 336).TopPosZ(376, 20))
 	ITEM(Upp::DocEdit, dv___13, WantFocus(false).SetFrame(Upp::FieldFrame()).SetEditable(false).RightPosZ(12, 332).VCenterPosZ(360, -12))
+	ITEM(cardGUI, customCard, LeftPosZ(376, 332).TopPosZ(376, 15))
 END_LAYOUT
 
-LAYOUT(MainAppWindow, 720, 420)
+LAYOUT(MainAppWindow, 728, 424)
 END_LAYOUT
 
