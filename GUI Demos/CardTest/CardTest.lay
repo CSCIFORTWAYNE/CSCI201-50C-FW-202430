@@ -1,0 +1,4 @@
+LAYOUT(CardTestLayout, 668, 272)
+	ITEM(cardGUI, MyCard, LeftPosZ(12, 104).TopPosZ(12, 148))
+END_LAYOUT
+

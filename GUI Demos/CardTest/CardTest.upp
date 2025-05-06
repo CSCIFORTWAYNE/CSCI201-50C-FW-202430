@@ -1,0 +1,13 @@
+uses
+	CtrlLib;
+
+file
+	cardGUI.cpp,
+	cardGUI.h,
+	CardTest.h,
+	main.cpp,
+	CardTest.lay;
+
+mainconfig
+	"" = "GUI";
+
