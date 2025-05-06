@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iomanip>
 #include <vector>
+#include <fstream>
 #include "cardGUI.h"
 
 using namespace Upp;
@@ -19,6 +20,7 @@ class DrinksWindow : public WithMainAppWindow<TopWindow>
 public:
 	DrinksWindow();
 	void checkPrice();
+	void saveOrder();
 	
 private:
 	AutoScroller scroller;
@@ -26,6 +28,8 @@ private:
 	Option flavor[NUM_FLAV];
 	drink d;
 	std::vector<drink> order;
+	Button writeBtn;
+	OptionTree optree;
 };
 
 #endif
