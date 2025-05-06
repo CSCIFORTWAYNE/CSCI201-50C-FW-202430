@@ -4,6 +4,7 @@
 #include <CtrlLib/CtrlLib.h>
 #include <sstream>
 #include <iomanip>
+#include <vector>
 #include "cardGUI.h"
 
 using namespace Upp;
@@ -24,6 +25,7 @@ private:
 	WithDrinksWindowLayout<ParentCtrl> scroller_view;
 	Option flavor[NUM_FLAV];
 	drink d;
+	std::vector<drink> order;
 };
 
 #endif
